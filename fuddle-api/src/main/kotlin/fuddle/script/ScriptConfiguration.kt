@@ -1,6 +1,6 @@
 package fuddle.script
 
-import fuddle.Context
+import fuddle.context.Context
 import kotlin.script.experimental.api.ScriptCompilationConfiguration
 import kotlin.script.experimental.api.defaultImports
 import kotlin.script.experimental.api.implicitReceivers

@@ -1,14 +1,13 @@
 package provider
 
 import fuddle.Resource
-import fuddle.computed
-import fuddle.optional
-import fuddle.required
+import fuddle.context.PropertyRegistry
 
-
-class DBInstance: Resource {
+class DBInstance(registry: PropertyRegistry): Resource(registry) {
     var name: String by required()
     var sourceDbIdentifier: String? by optional()
-    val id: String by computed()
+
+    // computed properties
+    val id: String by computed { resource -> resource.name }
 }
 
