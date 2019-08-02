@@ -1,8 +1,12 @@
-val master by resource<Database> {
+import provider.DBInstance
+
+// master: DBInstance
+val master by resource<DBInstance> {
     name = "foo-master"
 }
 
-val replicas by resource<Database>(3) {
+// replicas: List<DBInstance>
+val replicas by resource<DBInstance>(3) {
     name = "foo-read-$it"
     sourceDbIdentifier = master.id
 }

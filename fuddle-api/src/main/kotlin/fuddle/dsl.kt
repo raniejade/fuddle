@@ -43,9 +43,3 @@ inline fun <reified R: Resource, reified P> optional(default: P? = null): ReadWr
 inline fun <reified R: Resource, reified P> computed(): ReadOnlyProperty<R, P> {
     TODO()
 }
-
-class Database: Resource {
-    var name: String by required()
-    var sourceDbIdentifier: String? by optional()
-    val id: String by computed()
-}
