@@ -32,15 +32,20 @@ fun <R: Resource>  Context.resource(count: Int, configure: R.(Int) -> Unit): Lis
     TODO()
 }
 
-inline fun <reified T> required(): ReadWriteProperty<Resource, T> {
+inline fun <reified R: Resource, reified P> required(): ReadWriteProperty<R, P> {
     TODO()
 }
 
-inline fun <reified T> optional(default: T? = null): ReadWriteProperty<Resource, T?> {
+inline fun <reified R: Resource, reified P> optional(default: P? = null): ReadWriteProperty<R, P?> {
+    TODO()
+}
+
+inline fun <reified R: Resource, reified P> computed(): ReadOnlyProperty<R, P> {
     TODO()
 }
 
 class Database: Resource {
     var name: String by required()
     var sourceDbIdentifier: String? by optional()
+    val id: String by computed()
 }
