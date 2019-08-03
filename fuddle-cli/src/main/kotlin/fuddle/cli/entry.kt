@@ -2,14 +2,12 @@ package fuddle.cli
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import fuddle.engine.EmbeddedEngine
 import fuddle.engine.Engine
 import fuddle.engine.Request
-import fuddle.server.RemoteEngine
 import java.nio.file.Paths
 
 object Cli: CliktCommand(printHelpOnEmptyArgs = true) {
@@ -24,15 +22,7 @@ abstract class Action(name: String, help: String): CliktCommand(name = name, hel
     private val varFiles: List<String> by option("-f", "--var-files", help = "List of files containing variables")
         .multiple()
 
-    private val daemon: Boolean by option("--daemon", envvar = "FUDDLE_DAEMON").flag("--no-daemon", default = USE_DAEMON_BY_DEFAULT)
-
-    private val engine: Engine by lazy {
-        if (daemon) {
-            RemoteEngine()
-        } else {
-            EmbeddedEngine()
-        }
-    }
+    private val engine: Engine by lazy { EmbeddedEngine() }
 
     private val currentWorkingDirectory by lazy {
         Paths.get(System.getProperty("user.dir"))

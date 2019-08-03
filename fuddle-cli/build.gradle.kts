@@ -7,7 +7,6 @@ plugins {
 
 dependencies {
     implementation(project(":fuddle-engine"))
-    implementation(project(":fuddle-server"))
     implementation(kotlin("stdlib-jdk8"))
     implementation(Dependencies.clikt)
 }
@@ -23,5 +22,6 @@ compileTestKotlin.kotlinOptions {
 }
 
 application {
+    applicationName = "fuddle"
     mainClassName = "fuddle.cli.EntryKt"
 }
