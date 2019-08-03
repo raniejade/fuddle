@@ -2,6 +2,7 @@ package provider
 
 import fuddle.Resource
 import fuddle.context.PropertyRegistry
+import fuddle.provider.ResourceManager
 
 class DBInstance(registry: PropertyRegistry): Resource(registry) {
     var name: String by required()
@@ -11,3 +12,21 @@ class DBInstance(registry: PropertyRegistry): Resource(registry) {
     val id: String by computed { resource -> resource.name }
 }
 
+class DBInstanceResourceManager: ResourceManager<DBInstance> {
+    override fun create(resource: DBInstance) {
+        TODO()
+    }
+
+    override fun destroy(resource: DBInstance) {
+        TODO()
+    }
+
+    override fun template(properties: PropertyRegistry): DBInstance {
+        TODO()
+    }
+
+    override fun update(resource: DBInstance) {
+        TODO()
+    }
+
+}
