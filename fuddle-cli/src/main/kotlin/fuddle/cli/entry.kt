@@ -20,18 +20,10 @@ abstract class Action(name: String, help: String): CliktCommand(name = name, hel
     protected val varFiles: List<String> by option("-f", "--var-files", help = "List of files containing variables")
         .multiple()
 
-    private val daemon: Boolean? by option("--daemon", envvar = "FUDDLE_DAEMON").flag("--no-daemon", default = USE_DAEMON_BY_DEFAULT)
+    private val daemon: Boolean by option("--daemon", envvar = "FUDDLE_DAEMON").flag("--no-daemon", default = USE_DAEMON_BY_DEFAULT)
 
     protected val engine: Engine by lazy {
-        // check properties first
-        var useDaemon = System.getProperty("dev.fuddle.daemon")?.toBoolean() ?: USE_DAEMON_BY_DEFAULT
-
-        // cli flags override properties
-        daemon?.let { it ->
-            useDaemon = it
-        }
-
-        if (useDaemon) {
+        if (daemon) {
             RemoteEngine()
         } else {
             EmbeddedEngine()
