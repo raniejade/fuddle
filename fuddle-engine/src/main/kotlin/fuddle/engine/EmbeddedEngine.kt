@@ -1,4 +1,3 @@
 package fuddle.engine
 
-class EmbeddedEngine: Engine {
-}
+class EmbeddedEngine: Engine

@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
+    application
 }
 
 dependencies {
-    api(project(":fuddle-api"))
-
+    implementation(project(":fuddle-engine"))
     implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("scripting-jvm-host"))
+    implementation(Dependencies.clikt)
 }
 
 val compileKotlin: KotlinCompile by tasks
@@ -19,4 +19,8 @@ compileKotlin.kotlinOptions {
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
+}
+
+application {
+    mainClassName = "fuddle.cli.EntryKt"
 }
