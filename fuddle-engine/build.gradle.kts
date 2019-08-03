@@ -6,8 +6,10 @@ plugins {
 
 dependencies {
     api(project(":fuddle-api"))
+
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("scripting-jvm-host"))
+    implementation(Dependencies.clikt)
 }
 
 val compileKotlin: KotlinCompile by tasks

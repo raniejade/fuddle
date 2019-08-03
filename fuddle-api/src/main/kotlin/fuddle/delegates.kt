@@ -12,10 +12,10 @@ class ResourceDelegate<R: Resource>(private val resource: R): ReadOnlyProperty<A
 }
 
 class ResourceProvider<R: Resource>(private val context: Context,
-                                           private val clz: KClass<R>,
-                                           private val configure: R.() -> Unit) {
+                                    private val clz: KClass<R>,
+                                    private val configure: R.() -> Unit) {
     operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): ResourceDelegate<R> {
-        return ResourceDelegate(context.createResource(property.name, clz, configure))
+        return ResourceDelegate(context.defineResource(property.name, clz, configure))
     }
 }
 
@@ -26,10 +26,10 @@ class ListResourceDelegate<R: Resource>(private val resources: List<R>): ReadOnl
 }
 
 class ListResourceProvider<R: Resource>(private val context: Context,
-                                               private val clz: KClass<R>,
-                                               private val count: Int,
-                                               private val configure: R.(Int) -> Unit) {
+                                        private val clz: KClass<R>,
+                                        private val count: Int,
+                                        private val configure: R.(Int) -> Unit) {
     operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): ListResourceDelegate<R> {
-        return ListResourceDelegate(context.createResources(property.name, clz, count, configure))
+        return ListResourceDelegate(context.defineResource(property.name, clz, count, configure))
     }
 }
