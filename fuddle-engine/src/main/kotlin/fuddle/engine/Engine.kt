@@ -1,3 +1,5 @@
 package fuddle.engine
 
-interface Engine
+interface Engine {
+    fun execute(request: Request)
+}
