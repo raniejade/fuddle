@@ -4,7 +4,7 @@ import fuddle.Resource
 import fuddle.context.PropertyRegistry
 import fuddle.provider.ResourceManager
 
-class DBInstance(registry: PropertyRegistry): Resource(registry) {
+class DBInstance(properties: PropertyRegistry): Resource(properties) {
     var name: String by required()
     var sourceDbIdentifier: String? by optional()
 
@@ -22,11 +22,10 @@ class DBInstanceResourceManager: ResourceManager<DBInstance> {
     }
 
     override fun template(properties: PropertyRegistry): DBInstance {
-        TODO()
+        return DBInstance(properties)
     }
 
     override fun update(resource: DBInstance) {
         TODO()
     }
-
 }
