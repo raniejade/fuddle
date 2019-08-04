@@ -11,6 +11,7 @@ class EmbeddedEngine: Engine {
         if (request.varFiles.isNotEmpty()) {
             logger.info { "Loading variables from: ${request.varFiles}" }
         }
-        context
+        context.loadLocalState()
+        context.refreshRemoteState()
     }
 }
