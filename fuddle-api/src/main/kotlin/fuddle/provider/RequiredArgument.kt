@@ -1,11 +1,10 @@
-package fuddle.context
+package fuddle.provider
 
-import fuddle.Resource
 import kotlin.properties.Delegates
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class RequiredProperty<R: Resource, P: Any>: ReadWriteProperty<R, P> {
+class RequiredArgument<R: Resource<*>, P: Any>: ReadWriteProperty<R, P> {
     private var value by Delegates.notNull<P>()
 
     override fun getValue(thisRef: R, property: KProperty<*>): P {

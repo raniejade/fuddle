@@ -1,19 +1,32 @@
 package provider
 
-import fuddle.Resource
-import fuddle.context.PropertyRegistry
+import fuddle.provider.Resource
 import fuddle.provider.ResourceManager
+import fuddle.provider.ResourceState
 
-class DBInstance(properties: PropertyRegistry): Resource(properties) {
+class DBInstance: Resource<DBInstanceState>() {
     var name: String by required()
     var sourceDbIdentifier: String? by optional()
+    val id: String by attribute(DBInstanceState::id)
 
-    // computed properties
-    val id: String by computed { resource -> resource.name }
+    override fun applyArguments(state: DBInstanceState) {
+        this.name = state.name
+        this.sourceDbIdentifier = state.sourceDbIdentifier
+    }
 }
 
-class DBInstanceResourceManager: ResourceManager<DBInstance> {
-    override fun create(resource: DBInstance) {
+class DBInstanceState(
+    var name: String,
+    var sourceDbIdentifier: String?,
+    val id: String
+): ResourceState()
+
+class DBInstanceResourceManager: ResourceManager<DBInstanceState, DBInstance> {
+    override fun create(resource: DBInstance): DBInstanceState {
+        TODO()
+    }
+
+    override fun update(local: DBInstanceState, remote: DBInstanceState): DBInstanceState {
         TODO()
     }
 
@@ -21,11 +34,7 @@ class DBInstanceResourceManager: ResourceManager<DBInstance> {
         TODO()
     }
 
-    override fun template(properties: PropertyRegistry): DBInstance {
-        return DBInstance(properties)
-    }
-
-    override fun update(resource: DBInstance) {
-        TODO()
+    override fun template(): DBInstance {
+        return DBInstance()
     }
 }

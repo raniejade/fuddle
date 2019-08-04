@@ -1,11 +1,8 @@
 package fuddle.provider
 
-import fuddle.Resource
-import fuddle.context.PropertyRegistry
-
-interface ResourceManager<R: Resource> {
-    fun template(properties: PropertyRegistry): R
-    fun create(resource: R)
-    fun update(resource: R)
+interface ResourceManager<S: ResourceState, R: Resource<S>> {
+    fun template(): R
+    fun create(resource: R): S
+    fun update(local: S, remote: S): S
     fun destroy(resource: R)
 }

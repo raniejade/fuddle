@@ -10,4 +10,3 @@ val replicas by resource<DBInstance>(3) {
     name = "foo-read-$it"
     sourceDbIdentifier = master.id
 }
-

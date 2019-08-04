@@ -1,10 +1,9 @@
-package fuddle.context
+package fuddle.provider
 
-import fuddle.Resource
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class OptionalProperty<R: Resource, P>(default: P?): ReadWriteProperty<R, P?> {
+class OptionalArgument<R: Resource<*>, P>(default: P?): ReadWriteProperty<R, P?> {
     private var value: P? = default
     override fun getValue(thisRef: R, property: KProperty<*>): P? {
         return value
