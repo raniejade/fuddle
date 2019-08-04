@@ -9,6 +9,7 @@ dependencies {
     implementation(project(":fuddle-engine"))
     implementation(kotlin("stdlib-jdk8"))
     implementation(Dependencies.clikt)
+    implementation(Dependencies.logbackClassic)
 }
 
 val compileKotlin: KotlinCompile by tasks

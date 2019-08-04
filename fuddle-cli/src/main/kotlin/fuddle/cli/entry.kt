@@ -1,7 +1,9 @@
 package fuddle.cli
 
+import ch.qos.logback.classic.util.ContextInitializer
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
@@ -22,6 +24,8 @@ abstract class Action(name: String, help: String): CliktCommand(name = name, hel
     private val varFiles: List<String> by option("-f", "--var-files", help = "List of files containing variables")
         .multiple()
 
+    private val debug by option("--debug").flag()
+
     private val engine: Engine by lazy { EmbeddedEngine() }
 
     private val currentWorkingDirectory by lazy {
@@ -31,10 +35,9 @@ abstract class Action(name: String, help: String): CliktCommand(name = name, hel
     abstract fun request(stateDir: String, varFiles: List<String>): Request
 
     override fun run() {
+        initLogging()
         val resolvedStateDir = resolvePath(stateDir)
         val resolvedVarFiles = varFiles.map(this::resolvePath)
-        println(resolvedStateDir)
-        println(resolvedVarFiles)
         engine.execute(request(resolvedStateDir, resolvedVarFiles))
     }
 
@@ -70,6 +73,16 @@ abstract class Action(name: String, help: String): CliktCommand(name = name, hel
         } else {
             currentWorkingDirectory.resolve(path).toString()
         }
+    }
+
+    private fun initLogging() {
+        val config = if (debug) {
+            "logback-debug.xml"
+        } else {
+            "logback.xml"
+        }
+
+        System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, config)
     }
 
     companion object {

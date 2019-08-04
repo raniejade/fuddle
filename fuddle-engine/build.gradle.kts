@@ -9,6 +9,7 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("scripting-jvm-host"))
+    implementation(Dependencies.kotlinLogging)
 }
 
 val compileKotlin: KotlinCompile by tasks
