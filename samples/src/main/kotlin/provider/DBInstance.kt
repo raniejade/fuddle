@@ -1,17 +1,17 @@
 package provider
 
 import fuddle.provider.Resource
+import fuddle.provider.ResourceArguments
 import fuddle.provider.ResourceManager
 import fuddle.provider.ResourceState
 
-class DBInstance: Resource<DBInstanceState>() {
-    var name: String by required()
-    var sourceDbIdentifier: String? by optional()
-    val id: String by attribute(DBInstanceState::id)
+class DBInstance: Resource<DBInstanceState, DBInstanceArguments>() {
+    val id by argument(DBInstanceState::id)
+    val name by argument(DBInstanceState::name)
+    val sourceDbIdentifier by attribute(DBInstanceState::sourceDbIdentifier)
 
-    override fun applyArguments(state: DBInstanceState) {
-        this.name = state.name
-        this.sourceDbIdentifier = state.sourceDbIdentifier
+    override fun createArguments(): DBInstanceArguments {
+        return DBInstanceArguments()
     }
 }
 
@@ -21,12 +21,14 @@ class DBInstanceState(
     val id: String
 ): ResourceState()
 
-class DBInstanceResourceManager: ResourceManager<DBInstanceState, DBInstance> {
-    override fun create(resource: DBInstance): DBInstanceState {
-        TODO()
-    }
+class DBInstanceArguments: ResourceArguments() {
+    var name: String by required()
+    var sourceDbIdentifier: String? by optional()
+    var tags: Map<String, String>? by optional()
+}
 
-    override fun update(local: DBInstanceState, remote: DBInstanceState): DBInstanceState {
+class DBInstanceResourceManager: ResourceManager<DBInstanceState, DBInstanceArguments, DBInstance> {
+    override fun create(resource: DBInstance): DBInstanceState {
         TODO()
     }
 
@@ -35,6 +37,10 @@ class DBInstanceResourceManager: ResourceManager<DBInstanceState, DBInstance> {
     }
 
     override fun template(): DBInstance {
-        return DBInstance()
+        TODO()
+    }
+
+    override fun update(local: DBInstanceState, remote: DBInstanceState): DBInstanceState {
+        TODO()
     }
 }

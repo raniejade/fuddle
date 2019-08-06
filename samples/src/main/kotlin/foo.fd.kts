@@ -1,14 +1,20 @@
 import provider.DBInstance
 
-val service: String by optional(default = "foo")
+val flavor: String by required()
 
-// master: DBInstance
-val master by resource<DBInstance> {
-    name = "$service-master"
+val master: DBInstance by resource {
+    name = "foo-master"
+    tags = mutableMapOf(
+        "flavor" to flavor,
+        "role" to "master"
+    )
 }
 
-// replicas: List<DBInstance>
-val replicas by resource<DBInstance>(3) {
-    name = "$service-read-$it"
+val replicas: List<DBInstance> by resource(3) {
+    name = "foo-read-$it"
     sourceDbIdentifier = master.id
+    tags = mutableMapOf(
+        "flavor" to flavor,
+        "role" to "replica"
+    )
 }
