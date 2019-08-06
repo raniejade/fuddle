@@ -28,7 +28,7 @@ class ContextImpl(private val resourceRegistry: ResourceRegistryImpl): Context {
         return resources
     }
 
-    override fun <V> getVariable(name: String): V? {
+    override fun <V> getRequiredVar(name: String): V? {
         TODO()
     }
 

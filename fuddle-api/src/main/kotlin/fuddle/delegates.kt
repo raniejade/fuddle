@@ -42,23 +42,23 @@ class RequiredVariableDelegate<V: Any>(private val value: V): ReadOnlyProperty<A
     }
 }
 
-class RequiredVariableProvider<V: Any>(private val context: Context) {
+class RequiredVariableProvider<V: Any>(private val context: Context,
+                                       private val clz: KClass<*>,
+                                       private val default: V?) {
     operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): RequiredVariableDelegate<V> {
-        val value = checkNotNull(context.getVariable<V>(property.name))
-        return RequiredVariableDelegate(value)
+        return RequiredVariableDelegate(context.getRequiredVar(property.name, clz, default))
     }
 }
 
-class OptionalVariableDelegate<V: Any?>(private val value: V): ReadOnlyProperty<Any?, V> {
-    override fun getValue(thisRef: Any?, property: KProperty<*>): V {
+class OptionalVariableDelegate<V>(private val value: V?): ReadOnlyProperty<Any?, V?> {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): V? {
         return value
     }
 }
 
-class OptionalVariableProvider<V: Any?>(private val context: Context,
-                                        private val default: V) {
+class OptionalVariableProvider<V>(private val context: Context,
+                                  private val clz: KClass<*>) {
     operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): OptionalVariableDelegate<V> {
-        val value = context.getVariable(property.name) ?: default
-        return OptionalVariableDelegate(value)
+        return OptionalVariableDelegate(context.getOptionalVar<V>(property.name, clz))
     }
 }
