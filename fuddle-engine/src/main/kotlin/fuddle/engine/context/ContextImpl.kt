@@ -27,6 +27,10 @@ class ContextImpl(private val resourceRegistry: ResourceRegistryImpl): Context {
         return resources
     }
 
+    override fun <V> getVariable(name: String): V? {
+        TODO()
+    }
+
     fun loadLocalState() {
         logger.info { "Loading local state..." }
     }

@@ -7,4 +7,5 @@ import kotlin.reflect.KClass
 interface Context {
     fun <R: Resource<*>> defineResource(name: String, clz: KClass<R>, configure: R.() -> Unit): R
     fun <R: Resource<*>> defineResource(name: String, clz: KClass<R>, count: Int, configure: R.(Int) -> Unit): List<R>
+    fun <V> getVariable(name: String): V?
 }

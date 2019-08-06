@@ -1,12 +1,14 @@
 import provider.DBInstance
 
+val service: String by optional(default = "foo")
+
 // master: DBInstance
 val master by resource<DBInstance> {
-    name = "foo-master"
+    name = "$service-master"
 }
 
 // replicas: List<DBInstance>
 val replicas by resource<DBInstance>(3) {
-    name = "foo-read-$it"
+    name = "$service-read-$it"
     sourceDbIdentifier = master.id
 }
