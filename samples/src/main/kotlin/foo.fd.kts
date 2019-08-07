@@ -4,7 +4,6 @@ val flavor: String by vars()
 val varWithDefault: String by vars("hello")
 val optionalVar: String? by vars()
 
-
 val master: DBInstance by resource {
     name = "foo-master"
     tags = mutableMapOf(
