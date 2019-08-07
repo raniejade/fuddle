@@ -1,7 +1,9 @@
 import provider.DBInstance
 
-val flavor: String by vars(default = "dev")
-val opt: String? by optVars()
+val flavor: String by vars()
+val varWithDefault: String by vars("hello")
+val optionalVar: String? by vars()
+
 
 val master: DBInstance by resource {
     name = "foo-master"

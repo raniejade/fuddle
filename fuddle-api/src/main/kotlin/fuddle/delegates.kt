@@ -3,6 +3,7 @@ package fuddle
 import fuddle.context.Context
 import fuddle.provider.Resource
 import fuddle.provider.ResourceArguments
+import java.lang.IllegalArgumentException
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -36,29 +37,24 @@ class ListResourceProvider<A: ResourceArguments, R: Resource<*, A>>(private val 
     }
 }
 
-class RequiredVariableDelegate<V: Any>(private val value: V): ReadOnlyProperty<Any?, V> {
-    override fun getValue(thisRef: Any?, property: KProperty<*>): V {
-        return value
-    }
-}
+class VariableProvider<V>(private val context: Context,
+                          private val clz: KClass<*>,
+                          private val nullable: Boolean,
+                          private val default: V?) {
+    operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): ReadOnlyProperty<Any?, V> {
+        var value = context.getVariable<V>(property.name, clz)
 
-class RequiredVariableProvider<V: Any>(private val context: Context,
-                                       private val clz: KClass<*>,
-                                       private val default: V?) {
-    operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): RequiredVariableDelegate<V> {
-        return RequiredVariableDelegate(context.getRequiredVar(property.name, clz, default))
-    }
-}
+        if (!nullable && value == null) {
+            if (default == null) {
+                throw IllegalArgumentException("Required property ${property.name} not found.")
+            }
+            value = default
+        }
 
-class OptionalVariableDelegate<V>(private val value: V?): ReadOnlyProperty<Any?, V?> {
-    override fun getValue(thisRef: Any?, property: KProperty<*>): V? {
-        return value
-    }
-}
-
-class OptionalVariableProvider<V>(private val context: Context,
-                                  private val clz: KClass<*>) {
-    operator fun provideDelegate(thisRef: Any?, property: KProperty<*>): OptionalVariableDelegate<V> {
-        return OptionalVariableDelegate(context.getOptionalVar<V>(property.name, clz))
+        return object: ReadOnlyProperty<Any?, V> {
+            override fun getValue(thisRef: Any?, property: KProperty<*>): V {
+                return value as V
+            }
+        }
     }
 }
