@@ -24,9 +24,9 @@ class DBInstanceState(
 ): ResourceState()
 
 class DBInstanceArguments: ResourceArguments() {
-    var name: String by required()
-    var sourceDbIdentifier: String? by optional()
-    var tags: Map<String, String>? by optional()
+    var name: String by argument()
+    var sourceDbIdentifier: String? by argument()
+    var tags: Map<String, String> by argument(default = emptyMap())
 }
 
 class DBInstanceResourceManager: ResourceManager<DBInstanceState, DBInstanceArguments, DBInstance> {
