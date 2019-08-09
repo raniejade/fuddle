@@ -1,4 +1,7 @@
+import fuddle.resource
+import fuddle.vars
 import provider.DBInstance
+import kotlin.to
 
 val flavor: String by vars()
 val varWithDefault: String by vars("hello")
